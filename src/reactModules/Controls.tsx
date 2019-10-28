@@ -5,7 +5,7 @@ import text from '../writing';
 import Pos from './polarPos';
 import { controllerContext } from './contContext';
 import Controller from './Controller';
-import { coolLines } from '../linesForRender';
+import lines, { coolLines } from '../linesForRender';
 interface Props {}
 interface State {
   al: number;
@@ -39,11 +39,12 @@ export default class Controls extends Component<Props, State> {
   render() {
     const { x, y, z } = this.state.pos;
     return (
-      <div className='sidebar' style={{ maxHeight: window.innerHeight - 100}}>
+      <div className='sidebar' style={{ maxHeight: window.innerHeight - 100 }}>
         <div>
           <h3>Wormhole Control Panel</h3>
           <p>
-            Control the wormhole with the keyboard or by clicking the buttons below
+            Control the wormhole with the keyboard or by clicking the buttons
+            below
           </p>
         </div>
         <div className='button-con'>
@@ -136,10 +137,10 @@ export default class Controls extends Component<Props, State> {
             az={this.state.az}
             tone={this.state.tone}
           />
-          <div style={{ overflowY: 'clip', maxHeight: 'auto' }}>
+          <div style={{ overflowY: 'scroll', maxHeight: 'auto' }}>
             <Typewriter
               options={{
-                strings: coolLines,
+                strings: lines.join('\n'),
                 cursor: '',
                 autoStart: true,
                 loop: false,

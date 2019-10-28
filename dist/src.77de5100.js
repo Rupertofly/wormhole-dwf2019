@@ -42445,11 +42445,11 @@ var Controller = function () {
       return __generator(this, function (_c) {
         switch (_c.label) {
           case 0:
-            return [4, window.fetch('https://drive.google.com/uc?export=download&id=16NK-17yAy2fB4IXBaRmEIlG-9o3S51eM')];
+            return [4, window.fetch('https://ruby-quail-portfolio-images.s3-ap-southeast-2.amazonaws.com/RubySolly-Hurihuri.mp3')];
 
           case 1:
             audioResp = _c.sent();
-            return [4, window.fetch('https://drive.google.com/uc?export=download&id=16azNUz9ga4cP9ILEWVFsQmDMH-Ni1cD0')];
+            return [4, window.fetch('https://ruby-quail-portfolio-images.s3-ap-southeast-2.amazonaws.com/640x480.webm')];
 
           case 2:
             videoResp = _c.sent();
@@ -42837,7 +42837,7 @@ var _polarPos = _interopRequireDefault(require("./polarPos"));
 
 var _contContext = require("./contContext");
 
-var _linesForRender = require("../linesForRender");
+var _linesForRender = _interopRequireDefault(require("../linesForRender"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42998,12 +42998,12 @@ var Controls = function (_super) {
       tone: this.state.tone
     }), _react.default.createElement("div", {
       style: {
-        overflowY: 'clip',
+        overflowY: 'scroll',
         maxHeight: 'auto'
       }
     }, _react.default.createElement(_typewriterEffect.default, {
       options: {
-        strings: _linesForRender.coolLines,
+        strings: _linesForRender.default.join('\n'),
         cursor: '',
         autoStart: true,
         loop: false,
@@ -43066,12 +43066,27 @@ var Visuals = function (_super) {
     var _this = _super !== null && _super.apply(this, arguments) || this;
 
     _this.state = {
-      dimms: undefined
+      dimms: undefined,
+      canSeeGL: true
     };
     _this.videoRef = _react.default.createRef();
     _this.glRef = _react.default.createRef();
     _this.canvRef = _react.default.createRef();
     _this.hasAttCanv = false;
+
+    _this.onKeyPress = function (event) {
+      if (event.key === 'h') {
+        _this.setState({
+          canSeeGL: !_this.state.canSeeGL
+        });
+
+        console.log('keyPresssed is h');
+        return;
+      }
+
+      console.log("key is " + event.key);
+    };
+
     return _this;
   }
 
@@ -43082,7 +43097,8 @@ var Visuals = function (_super) {
       dimms: {
         width: width,
         height: newHeight
-      }
+      },
+      canSeeGL: true
     });
   };
 
@@ -43114,7 +43130,7 @@ var Visuals = function (_super) {
         position: 'relative',
         left: '0px',
         top: "-" + hei + "px",
-        display: 'hidden'
+        opacity: this.state.canSeeGL ? '100%' : '0%'
       },
       id: 'gl',
       width: wid,
@@ -43126,7 +43142,7 @@ var Visuals = function (_super) {
         position: 'relative',
         left: '0px',
         top: "-" + 2 * hei + "px",
-        opacity: '0%'
+        opacity: this.state.canSeeGL ? '0%' : '100%'
       },
       width: wid,
       height: hei,
@@ -43137,7 +43153,7 @@ var Visuals = function (_super) {
   Visuals.prototype.render = function () {
     var _this = this;
 
-    return _react.default.createElement("div", {
+    return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
       ref: function (e) {
         return _this.container = e;
       },
@@ -43146,7 +43162,13 @@ var Visuals = function (_super) {
         marginTop: 'auto',
         marginBottom: 'auto'
       }
-    }, this.state.dimms && this.renderContent());
+    }, this.state.dimms && this.renderContent()), _react.default.createElement("button", {
+      onClick: function (e) {
+        return _this.onKeyPress({
+          key: 'h'
+        });
+      }
+    }, "seeRawText"));
   };
 
   Visuals.contextType = _contContext.controllerContext;
